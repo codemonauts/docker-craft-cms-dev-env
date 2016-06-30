@@ -36,4 +36,8 @@ case "$1" in
     $0 start
     ;;
 
+  'yiic')
+    docker exec craft /bin/bash -c "/local/craft/app/etc/console/yiic ${@:2}"
+    ;; 
+
 esac
