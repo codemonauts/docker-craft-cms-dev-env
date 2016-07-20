@@ -27,8 +27,8 @@ case "$1" in
     ;;
 
   'stop')
-    docker rm -f mysql
     docker rm -f craft
+    docker rm -f mysql
     ;;
 
   'restart')
@@ -37,6 +37,7 @@ case "$1" in
     ;;
 
   'yiic')
+    echo "${@:2}"
     docker exec craft /bin/bash -c "/local/craft/app/etc/console/yiic ${@:2}"
     ;; 
 
