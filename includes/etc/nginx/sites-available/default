@@ -13,8 +13,8 @@ server {
 	}
 
 	location /adminer {
-		root /var/www/adminer
-		try_files $uri $uri/
+		root /var/www/adminer;
+		try_files $uri $uri/;
 	}
 
 	location @rewrites {
