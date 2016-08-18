@@ -1,34 +1,37 @@
 server {
-	listen 80 default_server;
-	listen [::]:80 default_server;
+       	listen 80 default_server;
+       	listen [::]:80 default_server;
 
-	root /local/public;
+       	root /local/public;
 
-	index index.php index.html;
+       	index index.php index.html;
 
-	server_name localhost;
+       	server_name localhost;
 
-	location / {
-		try_files $uri $uri/ @rewrites;
-	}
+       	location / {
+       		try_files $uri $uri/ @rewrites;
+       	}
 
-	location /adminer {
-		root /var/www/adminer;
-		try_files $uri $uri/;
-	}
-
-	location @rewrites {
+       	location @rewrites {
                 rewrite ^(.*)\.[\d]+\.(css|js)$ $1.$2 last;
-		rewrite ^(.*) /index.php?p=$1 last;
+       		rewrite ^(.*) /index.php?p=$1 last;
+       	}
+
+	location /de {
+	        try_files $uri $uri/ @rewrites_de;
 	}
 
-	location ~ \.php$ {
-		include snippets/fastcgi-php.conf;
-		fastcgi_pass unix:/run/php/php7.0-fpm.sock;
-		fastcgi_read_timeout 300;
+	location @rewrites_de {
+		rewrite ^(.*) /de/index.php?p=$1 last;
 	}
 
-	location ~ /\.ht {
-		deny all;
-	}
+       	location ~ \.php$ {
+       		include snippets/fastcgi-php.conf;
+       		fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+       		fastcgi_read_timeout 300;
+       	}
+
+       	location ~ /\.ht {
+       		deny all;
+       	}
 }
