@@ -28,6 +28,7 @@ case "$1" in
 
   'stop')
     docker rm -f craft
+    docker exec mysql /etc/init.d/mysql stop
     docker rm -f mysql
     ;;
 
@@ -40,5 +41,21 @@ case "$1" in
     echo "${@:2}"
     docker exec craft /bin/bash -c "/local/craft/app/etc/console/yiic ${@:2}"
     ;; 
+
+  'shell')
+    docker exec -it craft /bin/bash
+    ;; 
+
+  'create')
+    docker exec craft /bin/bash -c "mysqladmin create ${2}"
+    ;;
+
+  'drop')
+    docker exec -it craft /bin/bash -c "mysqladmin drop ${2}"
+    ;;
+
+  'import')
+    docker exec -it craft /bin/bash -c "mysql ${2} < /local/${3}"
+    ;;
 
 esac
