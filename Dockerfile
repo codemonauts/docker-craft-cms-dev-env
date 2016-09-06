@@ -6,7 +6,7 @@ RUN phpenmod mcrypt
 RUN locale-gen en_US.UTF-8
 RUN mkdir /local
 RUN ln -sf /local/craft/app/etc/console/yiic /usr/local/bin/yiic
-RUN ln -sf /usr/bin/nodejs /usr/local/bin/node
+RUN ln -sf /usr/bin/nodejs /usr/bin/node
 RUN npm install --global pug-cli bower postcss-cli autoprefixer uglify-js
 RUN gem install sass
 ADD includes /
