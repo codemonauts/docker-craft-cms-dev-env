@@ -26,4 +26,12 @@ if [[ ${FILE} =~ \.jade$ ]]; then
   fi
   mv ${TWIG} ${TWIG_DEST}/${TWIG_BASENAME}
 fi
+# TWIG
+if [[ ${FILE} =~ \/twig\/ ]]; then
+  rsync -r /local/resources/twig/ /local/craft/templates/
+fi
+# CSS
+if [[ ${FILE} =~ \/css\/ ]]; then
+  rsync -r /local/resources/css/ /local/public/css/
+fi
 echo "finished!"
