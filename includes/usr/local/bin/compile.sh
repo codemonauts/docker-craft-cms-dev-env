@@ -3,7 +3,7 @@ echo "Procompile all resources..."
 export LC_ALL="en_US.UTF-8"
 export LANG="en_US.UTF-8"
 cd /local/public
-bower install
+bower --allow-root install
 cd /local
 pug -E twig -P -o craft/templates resources/jade
 sass resources/sass/styles.sass public/css/styles.css
