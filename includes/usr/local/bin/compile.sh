@@ -11,3 +11,5 @@ postcss --use autoprefixer -o public/css/styles.css public/css/styles.css
 cd /local/resources/js
 for i in *.js; do uglifyjs ${i} --compress --mangle --output ../../public/js/${i}; done
 cd /local
+rsync -r /local/resources/twig/ /local/craft/templates/
+rsync -r /local/resources/css/ /local/public/css/
