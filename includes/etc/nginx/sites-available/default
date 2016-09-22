@@ -25,6 +25,14 @@ server {
 		rewrite ^(.*) /de/index.php?p=$1 last;
 	}
 
+	location /en {
+	        try_files $uri $uri/ @rewrites_en;
+	}
+
+	location @rewrites_en {
+		rewrite ^(.*) /en/index.php?p=$1 last;
+	}
+
        	location ~ \.php$ {
        		include snippets/fastcgi-php.conf;
        		fastcgi_pass unix:/run/php/php7.0-fpm.sock;
