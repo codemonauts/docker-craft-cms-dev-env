@@ -14,6 +14,10 @@ if [[ ${FILE} =~ \.sass$ ]]; then
   /usr/local/bin/sass /local/resources/sass/styles.sass /local/public/css/styles.css
   /usr/local/bin/postcss --use autoprefixer -o /local/public/css/styles.css /local/public/css/styles.css
 fi
+if [[ ${FILE} =~ \.scss$ ]]; then
+  /usr/local/bin/sass /local/resources/sass/styles.scss /local/public/css/styles.css
+  /usr/local/bin/postcss --use autoprefixer -o /local/public/css/styles.css /local/public/css/styles.css
+fi
 # JADE
 if [[ ${FILE} =~ \.jade$ ]]; then
   /usr/local/bin/pug -E twig -P -s ${FILE}
