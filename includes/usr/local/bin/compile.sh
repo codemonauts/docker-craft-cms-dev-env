@@ -13,8 +13,8 @@ fi
 if [ -f resources/sass/styles.sass ]; then
   sass resources/sass/styles.sass public/css/styles.css
 fi
-if [ -f resources/sass/styles.scss ]; then
-  sass resources/sass/styles.scss public/css/styles.css
+if [ -f resources/scss/styles.scss ]; then
+  sass resources/scss/styles.scss public/css/styles.css
 fi
 if [ -f public/css/styles.css ]; then
   postcss --use autoprefixer -o public/css/styles.css public/css/styles.css

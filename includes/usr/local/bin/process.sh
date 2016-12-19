@@ -15,7 +15,7 @@ if [[ ${FILE} =~ \.sass$ ]]; then
   /usr/local/bin/postcss --use autoprefixer -o /local/public/css/styles.css /local/public/css/styles.css
 fi
 if [[ ${FILE} =~ \.scss$ ]]; then
-  /usr/local/bin/sass /local/resources/sass/styles.scss /local/public/css/styles.css
+  /usr/local/bin/sass /local/resources/scss/styles.scss /local/public/css/styles.css
   /usr/local/bin/postcss --use autoprefixer -o /local/public/css/styles.css /local/public/css/styles.css
 fi
 # JADE
