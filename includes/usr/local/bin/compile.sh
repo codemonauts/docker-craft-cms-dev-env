@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "Procompile all resources..."
+echo "Precompile all resources..."
 export LC_ALL="en_US.UTF-8"
 export LANG="en_US.UTF-8"
 cd /local/public
@@ -10,14 +10,26 @@ cd /local
 if [ -d resources/jade ]; then
   pug -E twig -P -o craft/templates resources/jade
 fi
-if [ -f resources/sass/styles.sass ]; then
-  sass resources/sass/styles.sass public/css/styles.css
-fi
-if [ -f resources/scss/styles.scss ]; then
-  sass resources/scss/styles.scss public/css/styles.css
-fi
-if [ -f public/css/styles.css ]; then
-  postcss --use autoprefixer -o public/css/styles.css public/css/styles.css
+if [ -f /local/resources/compass/config.rb ]; then
+  cd /local/resources/compass
+  /usr/local/bin/compass compile
+else
+  if [ -d /local/resources/sass ]; then
+    cd /local/resources/sass
+    for sass in *.sass; do
+      filename="${sass%.*}"
+      /usr/local/bin/sass /local/resources/sass/${sass} /local/public/css/${filename}.css
+      /usr/local/bin/postcss --use autoprefixer -o /local/public/css/${filename}.css /local/public/css/${filename}.css
+    done
+  fi
+  if [ -d /local/resources/scss ]; then
+    cd /local/resources/scss
+    for scss in *.scss; do
+      filename="${scss%.*}"
+      /usr/local/bin/sass /local/resources/scss/${scss} /local/public/css/${filename}.css
+      /usr/local/bin/postcss --use autoprefixer -o /local/public/css/${filename}.css /local/public/css/${filename}.css
+    done
+  fi
 fi
 if [ -d /local/resources/js ]; then
   cd /local/resources/js
@@ -29,4 +41,7 @@ if [ -d /local/resources/twig ]; then
 fi
 if [ -d /local/resources/css ]; then
   rsync -r /local/resources/css/ /local/public/css/
+fi
+if [ -d /local/resources/vendor ]; then
+  rsync -r /local/resources/vendor/ /local/public/vendor/
 fi

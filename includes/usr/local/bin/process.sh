@@ -11,12 +11,30 @@ if [[ ${FILE} =~ \.js$ ]]; then
 fi
 # CSS
 if [[ ${FILE} =~ \.sass$ ]]; then
-  /usr/local/bin/sass /local/resources/sass/styles.sass /local/public/css/styles.css
-  /usr/local/bin/postcss --use autoprefixer -o /local/public/css/styles.css /local/public/css/styles.css
+  if [ -f /local/resources/compass/config.rb ]; then
+    cd /local/resources/compass
+    /usr/local/bin/compass compile
+  else
+    cd /local/resources/sass
+    for sass in *.sass; do
+      filename="${sass%.*}"
+      /usr/local/bin/sass /local/resources/sass/${sass} /local/public/css/${filename}.css
+      /usr/local/bin/postcss --use autoprefixer -o /local/public/css/${filename}.css /local/public/css/${filename}.css
+    done
+  fi
 fi
 if [[ ${FILE} =~ \.scss$ ]]; then
-  /usr/local/bin/sass /local/resources/scss/styles.scss /local/public/css/styles.css
-  /usr/local/bin/postcss --use autoprefixer -o /local/public/css/styles.css /local/public/css/styles.css
+  if [ -f /local/resources/compass/config.rb ]; then
+    cd /local/resources/compass
+    /usr/local/bin/compass compile
+  else
+    cd /local/resources/scss
+    for scss in *.scss; do
+      filename="${scss%.*}"
+      /usr/local/bin/sass /local/resources/scss/${scss} /local/public/css/${filename}.css
+      /usr/local/bin/postcss --use autoprefixer -o /local/public/css/${filename}.css /local/public/css/${filename}.css
+    done
+  fi
 fi
 # JADE
 if [[ ${FILE} =~ \.jade$ ]]; then
@@ -37,5 +55,9 @@ fi
 # CSS
 if [[ ${FILE} =~ \/css\/ ]]; then
   rsync -r /local/resources/css/ /local/public/css/
+fi
+# JS Vendor
+if [[ ${FILE} =~ \/vendor\/ ]]; then
+  rsync -r /local/resources/vendor/ /local/public/vendor/
 fi
 echo "finished!"

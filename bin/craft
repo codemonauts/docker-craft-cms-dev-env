@@ -58,4 +58,9 @@ case "$1" in
     docker exec -it craft /bin/bash -c "mysql ${2} < /local/${3}"
     ;;
 
+  'compile')
+    docker exec -it craft /bin/bash -c "compile.sh"
+    docker exec -it craft /bin/bash -c "watch.sh"
+    ;;
+
 esac
