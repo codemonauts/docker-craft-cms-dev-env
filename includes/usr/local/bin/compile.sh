@@ -10,6 +10,9 @@ cd /local
 if [ -d resources/jade ]; then
   pug -E twig -P -o craft/templates resources/jade
 fi
+if [ -d resources/pug ]; then
+  pug -E twig -P -o craft/templates resources/pug
+fi
 if [ -f /local/resources/compass/config.rb ]; then
   cd /local/resources/compass
   /usr/local/bin/compass compile

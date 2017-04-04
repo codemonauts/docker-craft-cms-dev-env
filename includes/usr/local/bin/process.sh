@@ -48,6 +48,18 @@ if [[ ${FILE} =~ \.jade$ ]]; then
   fi
   mv ${TWIG} ${TWIG_DEST}/${TWIG_BASENAME}
 fi
+# PUG
+if [[ ${FILE} =~ \.pug$ ]]; then
+  /usr/local/bin/pug -E twig -P -s ${FILE}
+  TWIG=${FILE//\.pug/\.twig}
+  TWIG_BASENAME=`basename ${TWIG}`
+  TWIG_SOURCE=`dirname ${TWIG}`
+  TWIG_DEST=${TWIG_SOURCE//resources\/pug/craft\/templates}
+  if [ ! -d ${TWIG_DEST} ]; then
+    mkdir -p ${TWIG_DEST}
+  fi
+  mv ${TWIG} ${TWIG_DEST}/${TWIG_BASENAME}
+fi
 # TWIG
 if [[ ${FILE} =~ \/twig\/ ]]; then
   rsync -r /local/resources/twig/ /local/craft/templates/
