@@ -14,6 +14,7 @@ server {
 
        	location @rewrites {
                 rewrite ^(.*)\.[\d]+\.(css|js)$ $1.$2 last;
+		rewrite ^\/vendor\/[\d]+\/(.*) /vendor/$1 last;
        		rewrite ^(.*) /index.php?p=$1 last;
        	}
 
