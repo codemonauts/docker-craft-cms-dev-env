@@ -63,4 +63,7 @@ case "$1" in
     docker exec -it craft /bin/bash -c "watch.sh"
     ;;
 
+  'gulp')
+    docker exec -it craft /bin/bash -c "gulp.sh"
+
 esac
