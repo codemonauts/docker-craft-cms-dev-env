@@ -19,22 +19,22 @@ if [ -d resources/pug ]; then
 fi
 if [ -f /local/resources/compass/config.rb ]; then
   cd /local/resources/compass
-  /usr/local/bin/compass compile
+  compass compile
 else
   if [ -d /local/resources/sass ]; then
     cd /local/resources/sass
     for sass in *.sass; do
       filename="${sass%.*}"
-      /usr/local/bin/sass /local/resources/sass/${sass} /local/public/css/${filename}.css
-      /usr/local/bin/postcss --use autoprefixer -o /local/public/css/${filename}.css /local/public/css/${filename}.css
+      sass /local/resources/sass/${sass} /local/public/css/${filename}.css
+      postcss --use autoprefixer -o /local/public/css/${filename}.css /local/public/css/${filename}.css
     done
   fi
   if [ -d /local/resources/scss ]; then
     cd /local/resources/scss
     for scss in *.scss; do
       filename="${scss%.*}"
-      /usr/local/bin/sass /local/resources/scss/${scss} /local/public/css/${filename}.css
-      /usr/local/bin/postcss --use autoprefixer -o /local/public/css/${filename}.css /local/public/css/${filename}.css
+      sass /local/resources/scss/${scss} /local/public/css/${filename}.css
+      postcss --use autoprefixer -o /local/public/css/${filename}.css /local/public/css/${filename}.css
     done
   fi
 fi
