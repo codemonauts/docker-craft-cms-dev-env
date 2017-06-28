@@ -17,12 +17,12 @@ fi
 if [[ ${FILE} =~ \.sass$ ]]; then
   if [ -f /local/resources/compass/config.rb ]; then
     cd /local/resources/compass
-    compass compile
+    /usr/local/bin/compass compile
   else
     cd /local/resources/sass
     for sass in *.sass; do
       filename="${sass%.*}"
-      sass /local/resources/sass/${sass} /local/public/css/${filename}.css
+      /usr/local/bin/sass /local/resources/sass/${sass} /local/public/css/${filename}.css
       postcss --use autoprefixer -o /local/public/css/${filename}.css /local/public/css/${filename}.css
     done
   fi
@@ -30,12 +30,12 @@ fi
 if [[ ${FILE} =~ \.scss$ ]]; then
   if [ -f /local/resources/compass/config.rb ]; then
     cd /local/resources/compass
-    compass compile
+    /usr/local/bin/compass compile
   else
     cd /local/resources/scss
     for scss in *.scss; do
       filename="${scss%.*}"
-      sass /local/resources/scss/${scss} /local/public/css/${filename}.css
+      /usr/local/bin/sass /local/resources/scss/${scss} /local/public/css/${filename}.css
       postcss --use autoprefixer -o /local/public/css/${filename}.css /local/public/css/${filename}.css
     done
   fi
