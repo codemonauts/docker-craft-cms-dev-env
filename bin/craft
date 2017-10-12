@@ -65,8 +65,10 @@ case "$1" in
 
   'gulp')
     docker exec -it craft /bin/bash -c "gulp.sh"
+    ;;
 
   'tunnel')
     docker exec -it craft /bin/bash -c "ngrok http 80"
+    ;;
 
 esac
