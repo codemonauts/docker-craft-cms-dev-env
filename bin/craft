@@ -1,5 +1,8 @@
 #!/bin/bash
 
+MYSQL_CONTAINER="mysql:5.6"
+CRAFT_CONTAINER="codemonauts/craft-cms-dev-env"
+
 if [ ! -e ${HOME}/databases ]; then
   mkdir ${HOME}/databases
 fi
@@ -8,18 +11,20 @@ if [ ! -e ${HOME}/database_config ]; then
   mkdir ${HOME}/database_config
 fi
 
+
+
 case "$1" in
 
   'start')
-    docker pull mysql:5.6
-    docker run --rm -d --name mysql -p 3306:3306 -v "${HOME}/databases:/var/lib/mysql" -v "${HOME}/database_config:/etc/mysql/conf.d" -e MYSQL_ROOT_PASSWORD=root mysql:5.6
+    docker pull "$MYSQL_CONTAINER"
+    docker run --rm -d --name mysql -p 3306:3306 -v "${HOME}/databases:/var/lib/mysql" -v "${HOME}/database_config:/etc/mysql/conf.d" -e MYSQL_ROOT_PASSWORD=root "$MYSQL_CONTAINER"
     if [ $? == 0 ]; then
-      docker pull codemonauts/craft-cms-dev-env
+      docker pull "$CRAFT_CONTAINER"
       PHPVERSION=$2
       if [ -z $PHPVERSION ]; then
           PHPVERSION="7.0"
       fi 
-      docker run --rm -d --name craft -p 8080:80 -v "${PWD}:/local" -e "PHPVERSION=$PHPVERSION" --link mysql:mysql codemonauts/craft-cms-dev-env
+      docker run --rm -d --name craft -p 8080:80 -v "${PWD}:/local" -e "PHPVERSION=$PHPVERSION" --link mysql:mysql "$CRAFT_CONTAINER"
       if [ $? == 0 ]; then
         echo "Started Craft CMS environment in ${PWD} and databases stored to ${HOME}/databases."
       else
