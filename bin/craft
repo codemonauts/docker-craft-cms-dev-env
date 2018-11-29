@@ -3,19 +3,12 @@
 MYSQL_CONTAINER="mysql:5.6"
 CRAFT_CONTAINER="codemonauts/craft-cms-dev-env"
 
-if [ ! -e ${HOME}/databases ]; then
-  mkdir ${HOME}/databases
-fi
-
-if [ ! -e ${HOME}/database_config ]; then
-  mkdir ${HOME}/database_config
-fi
-
-
 
 case "$1" in
 
   'start')
+    mkdir -p ${HOME}/databases
+    mkdir -p ${HOME}/database_config
     docker pull "$MYSQL_CONTAINER"
     docker run --rm -d --name mysql -p 3306:3306 -v "${HOME}/databases:/var/lib/mysql" -v "${HOME}/database_config:/etc/mysql/conf.d" -e MYSQL_ROOT_PASSWORD=root "$MYSQL_CONTAINER"
     if [ $? == 0 ]; then
