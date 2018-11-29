@@ -12,14 +12,14 @@ case "$1" in
 
   'start')
     docker pull mysql:5.6
-    docker run -d --name mysql -p 3306:3306 -v "${HOME}/databases:/var/lib/mysql" -v "${HOME}/database_config:/etc/mysql/conf.d" -e MYSQL_ROOT_PASSWORD=root mysql:5.6
+    docker run --rm -d --name mysql -p 3306:3306 -v "${HOME}/databases:/var/lib/mysql" -v "${HOME}/database_config:/etc/mysql/conf.d" -e MYSQL_ROOT_PASSWORD=root mysql:5.6
     if [ $? == 0 ]; then
       docker pull codemonauts/craft-cms-dev-env
       PHPVERSION=$2
       if [ -z $PHPVERSION ]; then
           PHPVERSION="7.0"
       fi 
-      docker run -d --name craft -p 8080:80 -v "${PWD}:/local" -e "PHPVERSION=$PHPVERSION" --link mysql:mysql codemonauts/craft-cms-dev-env
+      docker run --rm -d --name craft -p 8080:80 -v "${PWD}:/local" -e "PHPVERSION=$PHPVERSION" --link mysql:mysql codemonauts/craft-cms-dev-env
       if [ $? == 0 ]; then
         echo "Started Craft CMS environment in ${PWD} and databases stored to ${HOME}/databases."
       else
@@ -31,9 +31,9 @@ case "$1" in
     ;;
 
   'stop')
-    docker rm -f craft
+    docker stop craft
     docker exec mysql /etc/init.d/mysql stop
-    docker rm -f mysql
+    docker stop mysql
     ;;
 
   'restart')
