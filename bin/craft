@@ -3,16 +3,34 @@
 MYSQL_CONTAINER="mysql:5.6"
 CRAFT_CONTAINER="codemonauts/craft-cms-dev-env"
 
+function should_pull {
+    if [ -z $(docker images -q $1) ]; then
+        # image not available
+        return 0
+    elif [ -z "$(docker images $1 | grep hour)" ]; then
+        # image is only a few hours old
+        return 1
+    else
+        return 0
+    fi
+}
+
 
 case "$1" in
 
   'start')
     mkdir -p ${HOME}/databases
     mkdir -p ${HOME}/database_config
-    docker pull "$MYSQL_CONTAINER"
+    if should_pull "$MYSQL_CONTAINER"; then
+        echo "Pulling new MySQL container..."
+        docker pull "$MYSQL_CONTAINER" > /dev/null
+    fi
     docker run --rm -d --name mysql -p 3306:3306 -v "${HOME}/databases:/var/lib/mysql" -v "${HOME}/database_config:/etc/mysql/conf.d" -e MYSQL_ROOT_PASSWORD=root "$MYSQL_CONTAINER"
     if [ $? == 0 ]; then
-      docker pull "$CRAFT_CONTAINER"
+      if should_pull "$CRAFT_CONTAINER"; then
+          echo "Pulling new craft containe.r.."
+          docker pull "$CRAFT_CONTAINER" > /dev/null
+      fi
       PHPVERSION=$2
       if [ -z $PHPVERSION ]; then
           PHPVERSION="7.0"
