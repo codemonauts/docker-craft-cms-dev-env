@@ -1,11 +1,17 @@
-FROM ubuntu:xenial
+FROM ubuntu:bionic
+
+LABEL MAINTAINER felix@codemonauts.com
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV NODE_VERSION "9.11"
 ENV NVM_VERSION "v0.33.11" 
 ENV NVM_DIR /root/.nvm
 
-RUN apt-get update
+RUN apt-get update &&\
+    apt-get install -y --no-install-recommends software-properties-common &&\
+    add-apt-repository ppa:ondrej/php &&\
+    apt-get update
+
 RUN apt-get -y --no-install-recommends install \
     autoconf \
     autogen \
@@ -30,19 +36,25 @@ RUN apt-get -y --no-install-recommends install \
     php7.0-mcrypt \
     php7.0-mysql \
     php7.0-zip \
+    php7.2-bcmath \
+    php7.2-cli \
+    php7.2-curl \
+    php7.2-fpm \
+    php7.2-gd \
+    php7.2-intl \
+    php7.2-mbstring \
+    php7.2-mysql \
+    php7.2-zip \
     rsync \
     ruby \
     ruby-dev \
     vim \
-    zip &&\
+    zip \
+    zstd &&\
     locale-gen en_US.UTF-8 &&\
     gem update --system &&\
     gem install sass &&\
     gem install compass 
-
-# mcrypt has to be activated by hand due to a bug in 16.04
-# In Craft3 the mcrypt dependency is dropped
-RUN phpenmod mcrypt
 
 # Setup
 RUN mkdir /local
@@ -63,4 +75,4 @@ RUN . /root/.nvm/nvm.sh &&\
     nvm alias default $NODE_VERSION &&\
     npm install --global npm gulp-cli pug-cli bower 
 
-CMD ./run.sh
+CMD ["run.sh"]
