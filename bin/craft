@@ -15,11 +15,15 @@ case "$1" in
     docker run -d --name mysql -p 3306:3306 -v "${HOME}/databases:/var/lib/mysql" -v "${HOME}/database_config:/etc/mysql/conf.d" -e MYSQL_ROOT_PASSWORD=root mysql:5.6
     if [ $? == 0 ]; then
       docker pull codemonauts/craft-cms-dev-env
-      docker run -d --name craft -p 8080:80 -v "${PWD}:/local" --link mysql:mysql codemonauts/craft-cms-dev-env
+      PHPVERSION=$2
+      if [ -z $PHPVERSION ]; then
+          PHPVERSION="7.0"
+      fi 
+      docker run -d --name craft -p 8080:80 -v "${PWD}:/local" -e "PHPVERSION=$PHPVERSION" --link mysql:mysql codemonauts/craft-cms-dev-env
       if [ $? == 0 ]; then
         echo "Started Craft CMS environment in ${PWD} and databases stored to ${HOME}/databases."
       else
-        echo "Error starting webserver container. See error messages abobe!"
+        echo "Error starting webserver container. See error messages above!"
       fi
     else
       echo "Error starting MySQL container. See error messages above!"
