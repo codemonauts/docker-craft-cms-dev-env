@@ -28,7 +28,7 @@ case "$1" in
     docker run --rm -d --name mysql -p 3306:3306 -v "${HOME}/databases:/var/lib/mysql" -v "${HOME}/database_config:/etc/mysql/conf.d" -e MYSQL_ROOT_PASSWORD=root "$MYSQL_CONTAINER"
     if [ $? == 0 ]; then
       if should_pull "$CRAFT_CONTAINER"; then
-          echo "Pulling new craft containe.r.."
+          echo "Pulling new craft container..."
           docker pull "$CRAFT_CONTAINER" > /dev/null
       fi
       PHPVERSION=$2
