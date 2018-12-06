@@ -44,8 +44,13 @@ If you wan't to populate the DB with some data from e.g. the current prod enviro
 
 ```bash
 cp <dump-name>.sql /folder/containing/your/craft/website
-craft import <db-name> <dump-name>.sql
+craft import <db-name> <dump-name>
 ```
+
+The dump can be in one of the following formats:
+  - .sql
+  - .sql.gz
+  - .sql.zst
 
 ### Build frontend
 
