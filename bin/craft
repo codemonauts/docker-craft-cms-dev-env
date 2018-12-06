@@ -4,10 +4,10 @@ MYSQL_CONTAINER="mysql:5.6"
 CRAFT_CONTAINER="codemonauts/craft-cms-dev-env"
 
 function should_pull {
-    if [ -z $(docker images -q $1) ]; then
+    if [ -z "$(docker images -q "$1" )" ]; then
         # image not available
         return 0
-    elif [ -z "$(docker images $1 | grep hour)" ]; then
+    elif [ -z "$(docker images "$1" | grep hour)" ]; then
         # image is only a few hours old
         return 1
     else
