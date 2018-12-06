@@ -75,7 +75,7 @@ case "$1" in
     ;;
 
   'import')
-    docker exec -it craft /bin/bash -c "mysql ${2} < /local/${3}"
+    docker exec -it craft /bin/bash -c "extract.sh ${2} ${3}"
     ;;
 
   'compile')
