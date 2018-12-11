@@ -57,7 +57,7 @@ RUN apt-get -y --no-install-recommends install \
     gem install compass 
 
 # Setup
-RUN mkdir /local
+WORKDIR /local
 RUN ln -sf /local/craft/app/etc/console/yiic /usr/local/bin/yiic
 COPY includes /
 
