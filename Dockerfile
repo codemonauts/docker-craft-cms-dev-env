@@ -50,6 +50,7 @@ RUN apt-get -y --no-install-recommends install \
     rsync \
     ruby \
     ruby-dev \
+    unzip \
     vim \
     zip \
     zstd &&\
