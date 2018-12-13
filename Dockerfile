@@ -38,6 +38,8 @@ RUN apt-get -y --no-install-recommends install \
     php7.0-mysql \
     php7.0-xml \
     php7.0-zip \
+    php7.0-imagick \
+    php7.0-soap \
     php7.2-bcmath \
     php7.2-cli \
     php7.2-curl \
