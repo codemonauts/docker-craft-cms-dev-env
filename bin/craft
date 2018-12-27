@@ -4,17 +4,17 @@ MYSQL_CONTAINER="mysql:5.6"
 CRAFT_CONTAINER="codemonauts/craft-cms-dev-env"
 
 function should_pull {
-    if [ -z "$(docker images -q "$1" )" ]; then
-        # image not available
-        echo "Image for $1 is not available"
-        return 0
-    elif [ -z "$(docker images "$1" | grep hour)" ]; then
-        echo "Image for $1 seems to be older than 2 days"
-        # image is only a few hours old
-        return 0
-    else
-        return 1
-    fi
+  if [ -z "$(docker images -q "$1" )" ]; then
+    # image not available
+    echo "Image for $1 is not available"
+    return 0
+  elif [ -z "$(docker images "$1" | grep hour)" ]; then
+    echo "Image for $1 seems to be older than 2 days"
+    # image is only a few hours old
+    return 0
+  else
+    return 1
+  fi
 }
 
 
@@ -24,18 +24,18 @@ case "$1" in
     mkdir -p ${HOME}/databases
     mkdir -p ${HOME}/database_config
     if should_pull "$MYSQL_CONTAINER"; then
-        echo "Pulling new MySQL container..."
-        docker pull "$MYSQL_CONTAINER" > /dev/null
+      echo "Pulling new MySQL container..."
+      docker pull "$MYSQL_CONTAINER" > /dev/null
     fi
     docker run --rm -d --name mysql -p 3306:3306 -v "${HOME}/databases:/var/lib/mysql" -v "${HOME}/database_config:/etc/mysql/conf.d" -e MYSQL_ROOT_PASSWORD=root "$MYSQL_CONTAINER"
     if [ $? == 0 ]; then
       if should_pull "$CRAFT_CONTAINER"; then
-          echo "Pulling new craft container..."
-          docker pull "$CRAFT_CONTAINER" > /dev/null
+        echo "Pulling new craft container..."
+        docker pull "$CRAFT_CONTAINER" > /dev/null
       fi
       PHPVERSION=$2
       if [ -z $PHPVERSION ]; then
-          PHPVERSION="7.0"
+        PHPVERSION="7.0"
       fi 
       docker run --rm -d --name craft -p 8080:80 -v "${PWD}:/local" -e "PHPVERSION=$PHPVERSION" --link mysql:mysql "$CRAFT_CONTAINER"
       if [ $? == 0 ]; then
