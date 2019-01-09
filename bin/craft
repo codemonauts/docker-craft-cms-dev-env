@@ -93,4 +93,12 @@ case "$1" in
     docker exec -it craft /bin/bash -c "ngrok http 80"
     ;;
 
+  'selfupdate')
+    echo "Getting latest version from GitHub..."
+    SCRIPT=$0
+    GITHUB_URL="https://raw.githubusercontent.com/codemonauts/docker-craft-cms-dev-env/master/bin/craft"
+    wget --quiet $GITHUB_URL -O $SCRIPT
+    echo "Done"
+    ;;
+
 esac
