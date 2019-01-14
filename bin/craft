@@ -59,6 +59,11 @@ case "$1" in
 
   'stop')
     docker stop craft
+    ;;
+
+  'stopall')
+    docker stop craft
+    docker stop redis
     docker exec mysql /etc/init.d/mysql stop
     docker stop mysql
     ;;

@@ -77,9 +77,12 @@ migrations to apply.
 
 ### Teardown
 
-When you are done and wan't to throw the containers away just run `craft stop`. This will gracefully stop the MySQL
-server and then remove both containers. Because the database files and the precompiled assets were saved to your
+When you are done and wan't to throw the containers away just run `craft stopall`. This will gracefully stop the MySQL
+server and then remove all containers. Because the database files and the precompiled assets were saved to your
 local disk instead of the container, the next time you can just run `craft start` and are ready to roll.
+
+If you just want to stop the craft container to e.g. switch to a different project you can use `craft stop` which justs
+stops the craft container but keeps mysql and redis running.
 
 ### Shell access
 
