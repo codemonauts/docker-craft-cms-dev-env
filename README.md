@@ -25,9 +25,10 @@ cp the appropriate file containing your dev settings to the right place (.env.lo
 craft start
 ```
 
-This will do two things
+This will do the following things:
 
 - Pull the latest mysql container and start it with it's database dir (/var/lib/mysql/) mounted to `~/databases`.
+- Pull the latest redis container and start it with it's data dir (/data) mounted to `~/redis`.
 - Pull the latest craft-dev-env container and start the nginx+pphp7.0 inside of it. Nginx will listen on port 8080 of your machine. We assume that you are currently inside the project folder and mount it into the container as the document root under `/local`.
 
 If you wan't to use php-fpm7.2 instead of 7.0 just run `craft start 7.2`.
