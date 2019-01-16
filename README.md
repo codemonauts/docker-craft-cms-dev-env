@@ -17,6 +17,11 @@ Just copy the `bin/craft` script somewhere into your $PATH. E.g. `~/bin/craft`
 
 ## Usage
 
+
+### Update
+
+Regulary run `craft selfupdate`so the tool will get the latest version from GitHub and update itself.
+
 ### Start
 
 ```bash
