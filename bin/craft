@@ -214,7 +214,7 @@ case "$1" in
     log_info "Getting latest version from GitHub"
     SCRIPT=$0
     GITHUB_URL="https://raw.githubusercontent.com/codemonauts/docker-craft-cms-dev-env/master/bin/craft"
-    wget --quiet "$GITHUB_URL" -O "$SCRIPT"
+    curl -s "$GITHUB_URL" > "$SCRIPT"
     log_success "Done"
     ;;
 
