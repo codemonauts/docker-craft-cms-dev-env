@@ -3,69 +3,172 @@
 MYSQL_CONTAINER="mysql:5.6"
 REDIS_CONTAINER="redis:5.0"
 CRAFT_CONTAINER="codemonauts/craft-cms-dev-env"
+DEFAULT_PHP="7.0"
 
+
+# Check if an Docker Image is availabe and not older than a few days
 function should_pull {
-  if [ -z "$(docker images -q "$1" )" ]; then
+  NAME=$1
+  if ! image_exists $NAMNE; then
     # image not available
-    echo "Image for $1 is not available"
     return 0
   elif [ -z "$(docker images "$1" | grep hour)" ]; then
-    echo "Image for $1 seems to be older than 2 days"
-    # image is only a few hours old
+    # image is only a few hours oldNew
     return 0
   else
     return 1
   fi
 }
 
+# Check if an Docker Image existst on the host
+function image_exists {
+  if [ -z "$(docker images -q "$1" )" ]; then
+    return 1
+  else
+    return 0
+  fi
+}
+
+# Check if a named container is running
+function is_running {
+  NAME=$1
+  if [ -z "$(docker ps -q -f "name=$NAME")" ]; then
+    return 1
+  else
+    return 0
+  fi
+}
+
+# Create the needed directorys on the host which will be used as
+# container volumes for persistent storage
+function create_volumes {
+    mkdir -p ${HOME}/databases
+    mkdir -p ${HOME}/redis
+    mkdir -p ${HOME}/database_config
+}
+
+# Start the MySQL container if needed
+function start_mysql {
+  if is_running "mysql"; then
+    log_success "Mysql already running"
+    return
+  else
+    log_info "Need to start Mysql"
+  fi
+
+  if  ! image_exists "$MYSQL_CONTAINER"; then
+    log_info "Pulling MySQL image"
+    docker pull "$MYSQL_CONTAINER" > /dev/null
+  fi
+
+  docker run --rm -d --name mysql -p 3306:3306 -v "${HOME}/databases:/var/lib/mysql" -v "${HOME}/database_config:/etc/mysql/conf.d" -e MYSQL_ROOT_PASSWORD=root "$MYSQL_CONTAINER" > /dev/null
+  if [ $? == 0 ]; then
+    log_success "Started MySQL container"
+  else
+    log_error "Error starting the MySQL container. See error messages above!"
+  fi
+
+}
+
+# Start the Redis container if needed
+function start_redis {
+  if is_running "redis"; then
+    log_success "Redis already running"
+    return
+  else
+    log_info "Need to start redis"
+  fi
+
+  if  ! image_exists "$REDIS_CONTAINER"; then
+    log_info "Pulling Redis image"
+    docker pull "$REDIS_CONTAINER" > /dev/null
+  fi
+
+  docker run --rm -d --name redis -v "${HOME}/redis:/data" "$REDIS_CONTAINER" > /dev/null
+  if [ $? == 0 ]; then
+    log_success "Started Redis container"
+  else
+    log_error "Error starting the Redis container. See error messages above!"
+  fi
+
+}
+
+function stop_container {
+  NAME=$1
+  if is_running $NAME; then
+    log_info "Stopping $NAME"
+    docker stop $NAME > /dev/null
+    log_success "Stopped $NAME"
+  else
+    log_info "$NAME not running"
+  fi
+}
+
+# Print errormessages in red
+function log_error {
+  COLOR='\033[0;31m'
+  NC='\033[0m'
+  TEXT=$1
+  echo -e "> ${COLOR}$TEXT${NC}"
+}
+
+# Print normal log messages in white
+function log_info {
+  WHITE='\033[0;37m'
+  NC='\033[0m'
+  TEXT=$1
+  echo -e "> ${WHITE}$TEXT${NC}"
+}
+
+# Print success messages in green
+function log_success {
+  GREEN='\033[0;32m'
+  NC='\033[0m'
+  TEXT=$1
+  echo -e "> ${GREEN}$TEXT${NC}"
+}
 
 case "$1" in
 
   'start')
-    mkdir -p ${HOME}/databases
-    mkdir -p ${HOME}/redis
-    mkdir -p ${HOME}/database_config
-    if should_pull "$MYSQL_CONTAINER"; then
-      echo "Pulling new MySQL container..."
-      docker pull "$MYSQL_CONTAINER" > /dev/null
-    fi
-    if should_pull "$REDIS_CONTAINER"; then
-      echo "Pulling new REDIS container..."
-      docker pull "$REDIS_CONTAINER" > /dev/null
-    fi
-    docker run --rm -d --name mysql -p 3306:3306 -v "${HOME}/databases:/var/lib/mysql" -v "${HOME}/database_config:/etc/mysql/conf.d" -e MYSQL_ROOT_PASSWORD=root "$MYSQL_CONTAINER"
-    mysql=$?
-    docker run --rm -d --name redis -v "${HOME}/redis:/data" "$REDIS_CONTAINER"
-    redis=$?
-    if [ "$mysql" == 0 ] && [ "$redis" == 0 ]; then
-      if should_pull "$CRAFT_CONTAINER"; then
-        echo "Pulling new craft container..."
-        docker pull "$CRAFT_CONTAINER" > /dev/null
-      fi
-      PHPVERSION=$2
-      if [ -z $PHPVERSION ]; then
-        PHPVERSION="7.0"
-      fi 
-      docker run --rm -d --name craft -p 8080:80 -v "${PWD}:/local" -e "PHPVERSION=$PHPVERSION" --link mysql:mysql --link redis:redis "$CRAFT_CONTAINER"
-      if [ $? == 0 ]; then
-        echo "Started Craft CMS environment in ${PWD} and databases stored to ${HOME}/databases."
-      else
-        echo "Error starting webserver container. See error messages above!"
-      fi
+    create_volumes
+    start_mysql
+    start_redis
+    if is_running "craft"; then
+      log_success "Craft already running"
+      exit
     else
-      echo "Error starting MySQL or Redis container. See error messages above!"
+      log_info "Need to start craft"
+    fi
+
+    if should_pull "$CRAFT_CONTAINER"; then
+      log_info "Pulling new craft container"
+      docker pull "$CRAFT_CONTAINER" > /dev/null
+    fi
+
+    PHPVERSION=$2
+    if [ -z $PHPVERSION ]; then
+      # Set to default value if the user did not provide it
+      PHPVERSION=$DEFAULT_PHP
+    fi
+
+    docker run --rm -d --name craft -p 8080:80 -v "${PWD}:/local" -e "PHPVERSION=$PHPVERSION" --link mysql:mysql --link redis:redis "$CRAFT_CONTAINER" > /dev/null
+    if [ $? == 0 ]; then
+      log_success "Started Craft CMS environment in ${PWD}"
+      log_info "Now create something awesome 🚀"
+    else
+      log_error "Error starting the craft container. See error messages above!"
     fi
     ;;
 
   'stop')
-    docker stop craft
+    stop_container "craft"
     ;;
 
   'stopall')
-    docker stop craft
-    docker stop redis
-    docker exec mysql /etc/init.d/mysql stop
-    docker stop mysql
+    stop_container "craft"
+    stop_container "mysql"
+    stop_container "redis"
     ;;
 
   'restart')
@@ -108,11 +211,11 @@ case "$1" in
     ;;
 
   'selfupdate')
-    echo "Getting latest version from GitHub..."
+    log_info "Getting latest version from GitHub"
     SCRIPT=$0
     GITHUB_URL="https://raw.githubusercontent.com/codemonauts/docker-craft-cms-dev-env/master/bin/craft"
     wget --quiet "$GITHUB_URL" -O "$SCRIPT"
-    echo "Done"
+    log_success "Done"
     ;;
 
 esac
