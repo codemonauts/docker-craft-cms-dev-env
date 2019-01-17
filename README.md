@@ -5,6 +5,7 @@ This container helps you to setup a local environment for CRAFT CMS. This enviro
 - Nginx webserver
 - PHP-FPM 7.0 or 7.2
 - MySQL Server 5.6
+- Redis Server 5.0
 - Node 9.11 + npm
 - Frontend Tooling (gulp, bower, pug-cli)
 - bash + some sane CLI tools (vim,curl,git, ...)
