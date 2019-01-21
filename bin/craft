@@ -218,4 +218,9 @@ case "$1" in
     log_success "Done"
     ;;
 
+  *)
+    echo "Unknown command. Available commands are:"
+	echo "start, stop, stopall, yiic, shell, create, drop, import, compile, gulp, tunnel, selfupdate"
+  ;;
+
 esac
