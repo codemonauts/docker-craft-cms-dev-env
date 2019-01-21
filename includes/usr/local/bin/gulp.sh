@@ -27,4 +27,10 @@ else
 fi
 
 npm install
-gulp
+
+if [ -z $1 ]; then
+	# Use the default action if the user did not provide one
+	gulp
+else
+	gulp $1
+fi

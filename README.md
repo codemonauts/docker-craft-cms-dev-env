@@ -61,19 +61,14 @@ The dump can be in one of the following formats:
 
 ### Build frontend
 
-To compile all the SASS/SCSS/PUG/JADE files into usable assets you can run
-
-```bash
-craft shell
-cd /local/src
-gulp build
-```
-
-If you are modifying something in the frontend you probably want gulp to watch for filechanges and immideately rebuild. You can
-archive this by running
-
+To start gulp inside the container you can run
 ```bash
 craft gulp
+```
+This will start the default action defined in your gulpfile. To run a specific task, you can add it at the end:
+
+```bash
+craft gulp build
 ```
 
 ### Finishline

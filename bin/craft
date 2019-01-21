@@ -203,7 +203,8 @@ case "$1" in
     ;;
 
   'gulp')
-    docker exec -it craft /bin/bash -c "gulp.sh"
+    COMMAND=$2
+    docker exec -it craft /bin/bash -c "gulp.sh $COMMAND"
     ;;
 
   'tunnel')
