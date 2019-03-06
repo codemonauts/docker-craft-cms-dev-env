@@ -26,7 +26,18 @@ else
 	exit
 fi
 
-npm install
+# Check if we really need to run 'npm install'
+touch .lockfile-hash
+OLD=$(cat .lockfile-hash)
+CURRENT=$(md5sum package-lock.json | cut -d" " -f1)
+if [ "$OLD" == "$CURRENT" ]; then
+	echo "package-lock.json didn't changed since last time. Wont run npm install"
+else
+	echo "package-lock.json did change since last time. Will run npm install"
+	# Save the current version of the lockfile
+	echo -n $CURRENT > .lockfile-hash
+	npm install
+fi
 
 if [ -z $1 ]; then
 	# Use the default action if the user did not provide one
