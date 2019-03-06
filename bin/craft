@@ -12,7 +12,7 @@ function should_pull {
   if ! image_exists $NAMNE; then
     # image not available
     return 0
-  elif [ -z "$(docker images "$1" | grep hour)" ]; then
+  elif [ -z "$(docker images --format "{{.CreatedSince}}" "$1" | grep -E '(hour|minutes|seconds)')" ]; then
     # image is only a few hours oldNew
     return 0
   else
