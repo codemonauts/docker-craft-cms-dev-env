@@ -55,6 +55,7 @@ RUN apt-get -y --no-install-recommends install \
     ruby-dev \
     unzip \
     vim \
+    wget \
     zip \
     zstd &&\
     locale-gen en_US.UTF-8 &&\
@@ -69,6 +70,11 @@ COPY includes /
 
 # Install NVM
 RUN mkdir $NVM_DIR && curl -o- https://raw.githubusercontent.com/creationix/nvm/$NVM_VERSION/install.sh | bash
+
+# Download GeoIP2 database
+RUN wget http://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.mmdb.gz -O /tmp/geolite2.gz && \
+    gzip -d /tmp/geolite2.gz && \
+    mv /tmp/geolite2 /opt/GeoLite2-Country.mmdb
 
 # Install composer
 RUN cd /tmp &&\
