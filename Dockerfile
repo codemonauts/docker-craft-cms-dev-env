@@ -50,6 +50,7 @@ RUN apt-get -y --no-install-recommends install \
     php7.2-mysql \
     php7.2-xml \
     php7.2-zip \
+    php7.2-soap \
     redis-tools \
     rsync \
     ruby \
