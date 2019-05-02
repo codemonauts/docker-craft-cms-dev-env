@@ -26,6 +26,14 @@ else
 	exit
 fi
 
+if [ -d /local/scripts ]; then
+	( cd /local
+	for SCRIPT in `find scripts/ -name "*.sh"`; do
+		echo "Executing  '$SCRIPT' ..."
+		/bin/bash -eu $SCRIPT
+	done )
+fi
+
 # Check if we really need to run 'npm install'
 touch .lockfile-hash
 OLD=$(cat .lockfile-hash)
