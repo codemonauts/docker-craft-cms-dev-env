@@ -86,6 +86,13 @@ local disk instead of the container, the next time you can just run `craft start
 If you just want to stop the craft container to e.g. switch to a different project you can use `craft stop` which justs
 stops the craft container but keeps mysql and redis running.
 
+
+### Custom scripts
+
+If you have custom scripts which you want to execute for this specific project (e.g. installing packages or copying
+files) you can create a `scripts` folder in your project root (where you start `craft`) and put your scripts into it.
+Everything ending with `.sh` gets executed with `bash` when you run `craft gulp`.
+
 ### Shell access
 
 If you wan't to access the filesystem inside the container to e.g. take a look at a logfile or modify some files you
