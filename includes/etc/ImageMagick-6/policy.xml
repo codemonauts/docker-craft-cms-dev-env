@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE policymap [
+<!ELEMENT policymap (policy)+>
+<!ELEMENT policy (#PCDATA)>
+<!ATTLIST policy domain (delegate|coder|filter|path|resource) #IMPLIED>
+<!ATTLIST policy name CDATA #IMPLIED>
+<!ATTLIST policy rights CDATA #IMPLIED>
+<!ATTLIST policy pattern CDATA #IMPLIED>
+<!ATTLIST policy value CDATA #IMPLIED>
+]>
+
+ <policymap>
+  <policy domain="cache" name="shared-secret" value="passphrase"/>
+  <policy domain="coder" rights="none" pattern="EPHEMERAL" />
+  <policy domain="coder" rights="none" pattern="URL" />
+  <policy domain="coder" rights="none" pattern="HTTPS" />
+  <policy domain="coder" rights="none" pattern="MVG" />
+  <policy domain="coder" rights="none" pattern="MSL" />
+  <policy domain="coder" rights="none" pattern="TEXT" />
+  <policy domain="coder" rights="none" pattern="SHOW" />
+  <policy domain="coder" rights="none" pattern="WIN" />
+  <policy domain="coder" rights="none" pattern="PLT" />
+  <policy domain="path" rights="none" pattern="@*" />
+  <!-- disable ghostscript format types -->
+  <policy domain="coder" rights="none" pattern="PS" />
+  <policy domain="coder" rights="none" pattern="EPS" />
+  <!-- Here I changed none to read/write to be able to work with PDF files -->
+  <!-- Bugreport: https://bugs.launchpad.net/ubuntu/+source/imagemagick/+bug/1796563 -->
+  <policy domain="coder" rights="read/write" pattern="PDF" />
+  <policy domain="coder" rights="none" pattern="XPS" />
+</policymap>
