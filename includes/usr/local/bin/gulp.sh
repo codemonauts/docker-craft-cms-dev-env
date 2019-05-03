@@ -26,7 +26,7 @@ else
 	exit
 fi
 
-if [ -d /local/scripts ]; then
+if [ -d /local/scripts ]; then
 	( cd /local
 	for SCRIPT in `find scripts/ -name "*.sh"`; do
 		echo "Executing  '$SCRIPT' ..."
