@@ -128,9 +128,7 @@ function log_success {
   echo -e "> ${GREEN}$TEXT${NC}"
 }
 
-case "$1" in
-
-  'start')
+function start {
     create_volumes
     start_mysql
     start_redis
@@ -139,11 +137,6 @@ case "$1" in
       exit
     else
       log_info "Need to start craft"
-    fi
-
-    if should_pull "$CRAFT_CONTAINER"; then
-      log_info "Pulling new craft container"
-      docker pull "$CRAFT_CONTAINER" > /dev/null
     fi
 
     PHPVERSION=$2
@@ -159,6 +152,21 @@ case "$1" in
     else
       log_error "Error starting the craft container. See error messages above!"
     fi
+}
+
+case "$1" in
+
+  'offlinestart')
+    start
+    ;;
+
+  'start')
+    if should_pull "$CRAFT_CONTAINER"; then
+      log_info "Pulling new craft container"
+      docker pull "$CRAFT_CONTAINER" > /dev/null
+    fi
+
+    start
     ;;
 
   'stop')
@@ -221,7 +229,7 @@ case "$1" in
 
   *)
     echo "Unknown command. Available commands are:"
-	echo "start, stop, stopall, yiic, shell, create, drop, import, compile, gulp, tunnel, selfupdate"
+    echo "start, offlinestart, stop, stopall, yiic, shell, create, drop, import, compile, gulp, tunnel, selfupdate"
   ;;
 
 esac
