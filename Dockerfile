@@ -61,9 +61,9 @@ RUN apt-get -y --no-install-recommends install \
     zip \
     zstd &&\
     locale-gen en_US.UTF-8 &&\
-    gem update --system &&\
-    gem install sass &&\
-    gem install compass 
+    gem update --no-document --system &&\
+    gem install --no-document sass &&\
+    gem install --no-document compass 
 
 # Setup
 WORKDIR /local
