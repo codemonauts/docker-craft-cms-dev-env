@@ -3,8 +3,8 @@ FROM ubuntu:bionic
 LABEL MAINTAINER felix@codemonauts.com
 
 ENV DEBIAN_FRONTEND noninteractive
-ENV NODE_VERSION "9.11"
-ENV NVM_VERSION "v0.33.11" 
+ENV NODE_VERSION "12"
+ENV NVM_VERSION "v0.34.0"
 ENV NVM_DIR /root/.nvm
 
 RUN apt-get update &&\
@@ -71,7 +71,7 @@ RUN ln -sf /local/craft/app/etc/console/yiic /usr/local/bin/yiic
 COPY includes /
 
 # Install NVM
-RUN mkdir $NVM_DIR && curl -o- https://raw.githubusercontent.com/creationix/nvm/$NVM_VERSION/install.sh | bash
+RUN mkdir $NVM_DIR && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/$NVM_VERSION/install.sh | bash
 
 # Download GeoIP2 database
 RUN wget http://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.mmdb.gz -O /tmp/geolite2.gz && \
