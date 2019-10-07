@@ -14,7 +14,8 @@ To enable you an easy workflow, this repository contains a helpful little shell 
 
 ## Installation
 
-Just copy the `bin/craft` script somewhere into your $PATH. E.g. `~/bin/craft`
+* Copy the `bin/craft` script somewhere into your $PATH. E.g. `~/bin/craft`
+* Done :)
 
 ## Usage
 
@@ -31,23 +32,32 @@ cp the appropriate file containing your dev settings to the right place (.env.lo
 craft start
 ```
 
-This will do the following things:
+The database credentials in your dev setting must be the following:
+```
+Host: mysql
+Username: root
+Password: root
+Database: See next step
+```
+
+
+`craft start` will do the following things:
 
 - Pull the latest mysql container and start it with it's database dir (/var/lib/mysql/) mounted to `~/databases`.
 - Pull the latest redis container and start it with it's data dir (/data) mounted to `~/redis`.
-- Pull the latest craft-dev-env container and start the nginx+pphp7.0 inside of it. Nginx will listen on port 8080 of your machine. We assume that you are currently inside the project folder and mount it into the container as the document root under `/local`.
+- Pull the latest craft-dev-env container and start the nginx+php7.0 inside of it. Nginx will listen on port 8080 of your machine. We assume that you are currently inside the project folder and mount it into the container as the document root under `/local`.
 
-If you wan't to use php-fpm7.2 instead of 7.0 just run `craft start 7.2`.
+If you wan't to use php7.2 instead of 7.0, you can start the container with an extra argument like this: `craft start 7.2`.
 
 ### Load a database
 
-A CRAFT site is pretty useless without a database, so we need to create one. To create a DB just run
+A CraftCMS site is pretty useless without a database, so we need to create one. To create an empty database run 
 
 ```bash
 craft create <db-name>
 ```
 
-If you wan't to populate the DB with some data from e.g. the current prod environment you can do this by running
+If you wan't to populate the DB with some data, e.g. from the current prod environment you can do this by running
 
 ```bash
 cp <dump-name>.sql /folder/containing/your/craft/website
@@ -79,13 +89,12 @@ migrations to apply.
 
 ### Teardown
 
-When you are done and wan't to throw the containers away just run `craft stopall`. This will gracefully stop the MySQL
+When you are done and wan't to throw the containers away, just run `craft stopall`. This will gracefully stop the MySQL
 server and then remove all containers. Because the database files and the precompiled assets were saved to your
-local disk instead of the container, the next time you can just run `craft start` and are ready to roll.
+local disk, the next time you run `craft start` everything will already be there.
 
-If you just want to stop the craft container to e.g. switch to a different project you can use `craft stop` which justs
-stops the craft container but keeps mysql and redis running.
-
+If you only want to switch to another CraftCMS projekct, you can use `craft stop` which wil only stop the PHP container
+and keep the MySQL and the Redis container running because they are shared between all projects.
 
 ### Custom scripts
 
@@ -101,6 +110,6 @@ can run `craft shell` to spawn a bash.
 ### External Tunnel
 
 Sometimes you need to access the CRAFT installation from the outside to e.g. receive a webhook from a third-party. To
-make this easy we included [ngrok](https://ngrok.com) inside the container. Just run `craft tunnel` and you will see
+make this easy we included [ngrok](https://ngrok.com) inside the container. After running `craft tunnel` you will see
 the ngrok interface which will present you publicly reachable `https:<randomhash>.ngrok.io` domain which will point
 to the nginx inside the container.
