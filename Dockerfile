@@ -83,6 +83,12 @@ RUN cd /tmp &&\
     curl --silent --show-error https://getcomposer.org/installer | php &&\
     mv composer.phar /usr/local/bin/composer
 
+# Install yarn
+RUN apt install -y gpg-agent && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - &&\
+    echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list &&\
+    apt update &&\
+    apt install -y yarn
+
 # Install node including global packages
 RUN . /root/.nvm/nvm.sh &&\
     nvm install $NODE_VERSION &&\
