@@ -87,6 +87,6 @@ RUN cd /tmp &&\
 RUN . /root/.nvm/nvm.sh &&\
     nvm install $NODE_VERSION &&\
     nvm alias default $NODE_VERSION &&\
-    npm install --global npm gulp-cli pug-cli bower 
+    npm install --global npm gulp-cli pug-cli bower yarn
 
 CMD ["run.sh"]
