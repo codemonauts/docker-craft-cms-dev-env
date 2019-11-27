@@ -22,7 +22,7 @@ To enable you an easy workflow, this repository contains a helpful little shell 
 
 ### Update
 
-Regulary run `craft selfupdate`so the tool will get the latest version from GitHub and update itself.
+Regulary run `craft selfupdate` so the tool will get the latest version from GitHub and update itself.
 
 ### Start
 
