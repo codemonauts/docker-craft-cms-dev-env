@@ -81,6 +81,9 @@ This will start the default action defined in your gulpfile. To run a specific t
 craft gulp build
 ```
 
+### Define webserver root directory
+Rename the `web` folder to `public`. This is the access point for our webserver.
+
 ### Finishline
 
 When everything has worked until this point you should be able to open [localhost:8080](http://localhost:8080) in
