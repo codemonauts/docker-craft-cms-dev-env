@@ -22,7 +22,7 @@ To enable you an easy workflow, this repository contains a helpful little shell 
 
 ### Update
 
-Regulary run `craft selfupdate`so the tool will get the latest version from GitHub and update itself.
+Regulary run `craft selfupdate` so the tool will get the latest version from GitHub and update itself.
 
 ### Start
 
@@ -80,6 +80,9 @@ This will start the default action defined in your gulpfile. To run a specific t
 ```bash
 craft gulp build
 ```
+
+### Define webserver root directory
+Rename the `web` folder to `public`. This is the access point for our webserver.
 
 ### Finishline
 
