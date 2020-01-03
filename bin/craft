@@ -139,7 +139,7 @@ function start {
       log_info "Need to start craft"
     fi
 
-    PHPVERSION=$2
+    PHPVERSION=$1
     if [ -z $PHPVERSION ]; then
       # Set to default value if the user did not provide it
       PHPVERSION=$DEFAULT_PHP
@@ -166,7 +166,7 @@ case "$1" in
       docker pull "$CRAFT_CONTAINER" > /dev/null
     fi
 
-    start
+    start $2
     ;;
 
   'stop')
