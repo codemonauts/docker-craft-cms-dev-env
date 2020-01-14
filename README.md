@@ -1,4 +1,6 @@
 # docker-craft-dev-env
+![docker build badge](https://img.shields.io/docker/build/codemonauts/craft-cms-dev-env)
+![docker pulls badge](https://img.shields.io/docker/pulls/codemonauts/craft-cms-dev-env)
 
 This container helps you to setup a local environment for CRAFT CMS. This environment consists of:
 
