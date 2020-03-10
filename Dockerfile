@@ -3,9 +3,9 @@ FROM ubuntu:bionic
 LABEL MAINTAINER felix@codemonauts.com
 
 ENV DEBIAN_FRONTEND noninteractive
-ENV NODE_VERSION "9.11"
-ENV NVM_VERSION "v0.33.11" 
-ENV NVM_DIR /root/.nvm
+
+ENV NODE_VERSION "node_12.x"
+ENV DISTRO "bionic"
 
 RUN apt-get update &&\
     apt-get install -y --no-install-recommends software-properties-common &&\
@@ -18,6 +18,7 @@ RUN apt-get -y --no-install-recommends install \
     build-essential \
     curl \
     git \
+    gnupg-agent \
     iwatch \
     libtool \
     locales \
@@ -26,31 +27,9 @@ RUN apt-get -y --no-install-recommends install \
     php-imagick \
     php-soap \
     php-xml \
-    php7.0-bcmath \
-    php7.0-cli \
-    php7.0-curl \
-    php7.0-fpm \
-    php7.0-gd \
-    php7.0-imagick \
-    php7.0-intl \
-    php7.0-mbstring \
-    php7.0-mcrypt \
-    php7.0-mysql \
-    php7.0-xml \
-    php7.0-zip \
-    php7.0-imagick \
-    php7.0-soap \
-    php7.2-bcmath \
-    php7.2-cli \
-    php7.2-curl \
-    php7.2-fpm \
-    php7.2-gd \
-    php7.2-intl \
-    php7.2-mbstring \
-    php7.2-mysql \
-    php7.2-xml \
-    php7.2-zip \
-    php7.2-soap \
+    php7.0-bcmath php7.0-cli php7.0-curl php7.0-fpm php7.0-gd php7.0-imagick php7.0-intl php7.0-mbstring php7.0-mcrypt php7.0-mysql php7.0-xml php7.0-zip php7.0-imagick php7.0-soap \
+    php7.2-bcmath php7.2-cli php7.2-curl php7.2-fpm php7.2-gd php7.2-intl php7.2-mbstring php7.2-mysql php7.2-xml php7.2-zip php7.2-soap \
+    php7.4-bcmath php7.4-cli php7.4-curl php7.4-fpm php7.4-gd php7.4-intl php7.4-mbstring php7.4-mysql php7.4-xml php7.4-zip php7.4-soap \
     redis-tools \
     rsync \
     ruby \
@@ -66,26 +45,19 @@ RUN apt-get -y --no-install-recommends install \
 # Setup
 WORKDIR /local
 RUN ln -sf /local/craft/app/etc/console/yiic /usr/local/bin/yiic
-COPY includes /
 
-# Install NVM
-RUN mkdir $NVM_DIR && curl -o- https://raw.githubusercontent.com/creationix/nvm/$NVM_VERSION/install.sh | bash
+COPY includes /
 
 # Install composer
 RUN cd /tmp &&\
     curl --silent --show-error https://getcomposer.org/installer | php &&\
     mv composer.phar /usr/local/bin/composer
 
-# Install yarn
-RUN apt install -y gpg-agent && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - &&\
-    echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list &&\
-    apt update &&\
-    apt install -y yarn
-
 # Install node including global packages
-RUN . /root/.nvm/nvm.sh &&\
-    nvm install $NODE_VERSION &&\
-    nvm alias default $NODE_VERSION &&\
-    npm install --global npm gulp-cli pug-cli bower yarn
+RUN curl -sSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - &&\
+    echo "deb https://deb.nodesource.com/$NODE_VERSION $DISTRO main" | tee /etc/apt/sources.list.d/nodesource.list &&\
+    apt-get update &&\
+    apt-get install -y nodejs &&\
+    npm install --global npm gulp-cli pug-cli yarn
 
 CMD ["run.sh"]

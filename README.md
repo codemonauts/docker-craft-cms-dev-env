@@ -5,12 +5,12 @@
 This container helps you to setup a local environment for CRAFT CMS. This environment consists of:
 
 - Nginx webserver
-- PHP-FPM 7.0 or 7.2
+- PHP-FPM 7.0, 7.2 and 7.4
 - MySQL Server 5.6
 - Redis Server 5.0
-- Node 9.11 + npm
+- Node 12 + npm
 - Frontend Tooling (gulp, bower, pug-cli)
-- bash + some sane CLI tools (vim,curl,git, ...)
+- bash + some handy CLI tools (vim,curl,git, ...)
 
 To enable you an easy workflow, this repository contains a helpful little shell script which you can use to manage this container.
 
@@ -49,7 +49,7 @@ Database: See next step
 - Pull the latest redis container and start it with it's data dir (/data) mounted to `~/redis`.
 - Pull the latest craft-dev-env container and start the nginx+php7.0 inside of it. Nginx will listen on port 8080 of your machine. We assume that you are currently inside the project folder and mount it into the container as the document root under `/local`.
 
-If you wan't to use php7.2 instead of 7.0, you can start the container with an extra argument like this: `craft start 7.2`.
+If you wan't to use 7.2 or 7.4 instead of 7.0, you can start the container with an extra argument like this: `craft start 7.2`.
 
 ### Load a database
 
