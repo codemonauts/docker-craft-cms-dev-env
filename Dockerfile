@@ -71,11 +71,6 @@ COPY includes /
 # Install NVM
 RUN mkdir $NVM_DIR && curl -o- https://raw.githubusercontent.com/creationix/nvm/$NVM_VERSION/install.sh | bash
 
-# Download GeoIP2 database
-RUN wget http://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.mmdb.gz -O /tmp/geolite2.gz && \
-    gzip -d /tmp/geolite2.gz && \
-    mv /tmp/geolite2 /opt/GeoLite2-Country.mmdb
-
 # Install composer
 RUN cd /tmp &&\
     curl --silent --show-error https://getcomposer.org/installer | php &&\
