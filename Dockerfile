@@ -44,7 +44,6 @@ RUN apt-get -y --no-install-recommends install \
 
 # Setup
 WORKDIR /local
-RUN ln -sf /local/craft/app/etc/console/yiic /usr/local/bin/yiic
 
 COPY includes /
 
