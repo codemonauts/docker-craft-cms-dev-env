@@ -45,7 +45,6 @@ RUN apt-get -y --no-install-recommends install \
 # Setup
 WORKDIR /local
 
-COPY includes /
 
 # Install composer
 RUN cd /tmp &&\
@@ -58,5 +57,7 @@ RUN curl -sSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add
     apt-get update &&\
     apt-get install -y nodejs &&\
     npm install --global npm gulp-cli pug-cli yarn
+
+COPY includes /
 
 CMD ["run.sh"]
