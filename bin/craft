@@ -145,7 +145,13 @@ function start {
       PHPVERSION=$DEFAULT_PHP
     fi
 
-    docker run --rm -d --name craft -p 8080:80 -v "${PWD}:/local" -e "PHPVERSION=$PHPVERSION" --link mysql:mysql --link redis:cache "$CRAFT_CONTAINER" > /dev/null
+    if [ `uname -s` == "Linux" ]; then
+        echo "You appear to be running Linux. Trying to fix permissions for mounted volumes inside container"
+        docker run --rm -d --name craft -p 8080:80 -v "${PWD}:/local" -e "CUSTOM_UID=`id -u`" -e "CUSTOM_GID=`id -g`" -e "PHPVERSION=$PHPVERSION" --link mysql:mysql --link redis:cache "$CRAFT_CONTAINER" > /dev/null
+    else
+        docker run --rm -d --name craft -p 8080:80 -v "${PWD}:/local" -e "PHPVERSION=$PHPVERSION" --link mysql:mysql --link redis:cache "$CRAFT_CONTAINER" > /dev/null
+    fi
+
     if [ $? == 0 ]; then
       log_success "Started Craft CMS environment in ${PWD}"
       log_info "Now create something awesome 🚀"

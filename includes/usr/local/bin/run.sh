@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [ ! -z "$CUSTOM_UID" ] && [ ! -z "$CUSTOM_GID" ]; then
+    usermod -u $CUSTOM_UID www-data && groupmod -g $CUSTOM_GID www-data
+fi
+
 # Switch php version for the cli
 update-alternatives --set php /usr/bin/php"$PHPVERSION"
 
