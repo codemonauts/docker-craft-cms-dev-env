@@ -46,10 +46,11 @@ RUN apt-get -y --no-install-recommends install \
 WORKDIR /local
 
 
-# Install composer
+# Install composer and prestissimo plugin
 RUN cd /tmp &&\
     curl --silent --show-error https://getcomposer.org/installer | php &&\
-    mv composer.phar /usr/local/bin/composer
+    mv composer.phar /usr/local/bin/composer &&\
+    composer global require hirak/prestissimo
 
 # Install node including global packages
 RUN curl -sSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - &&\
