@@ -7,7 +7,7 @@ export NVM_DIR="$HOME/.nvm"
 
 if [ -e /local/composer.json ]; then
 	cd /local
-	composer install --ignore-platform-reqs
+	composer install
 fi
 
 if [ -e /local/.env.local ]; then
