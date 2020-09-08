@@ -1,9 +1,9 @@
 #! /usr/bin/env bash
 
-MYSQL_CONTAINER="mysql:5.6"
+MYSQL_CONTAINER="mysql:5.7"
 REDIS_CONTAINER="redis:5.0"
 CRAFT_CONTAINER="codemonauts/craft-cms-dev-env"
-DEFAULT_PHP="7.0"
+DEFAULT_PHP="7.4"
 
 
 # Check if an Docker Image is availabe and not older than a few days

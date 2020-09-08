@@ -1,11 +1,11 @@
-FROM ubuntu:bionic
+FROM ubuntu:focal
 
 LABEL MAINTAINER felix@codemonauts.com
 
 ENV DEBIAN_FRONTEND noninteractive
 
 ENV NODE_VERSION "node_12.x"
-ENV DISTRO "bionic"
+ENV DISTRO "focal"
 
 RUN apt-get update &&\
     apt-get install -y --no-install-recommends software-properties-common &&\
