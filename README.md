@@ -48,9 +48,12 @@ Database: See next step
 
 - Pull the latest mysql container and start it with it's database dir (/var/lib/mysql/) mounted to `~/databases`.
 - Pull the latest redis container and start it with it's data dir (/data) mounted to `~/redis`.
-- Pull the latest craft-dev-env container and start the nginx+php7.0 inside of it. Nginx will listen on port 8080 of your machine. We assume that you are currently inside the project folder and mount it into the container as the document root under `/local`.
+- Pull the latest craft-dev-env container and start the nginx+php7.4 inside of it. Nginx will listen on port 8080 of your machine. We assume that you are currently inside the project folder and mount it into the container as the document root under `/local`.
 
-If you wan't to use 7.2 or 7.4 instead of 7.0, you can start the container with an extra argument like this: `craft start 7.2`.
+To speed things up (the craft-dev-env container is quite big) the tool checks how old your local image is, and only
+pulls a new image if it's older than two days.
+
+If you wan't to use 7.0 or 7.2 instead of 7.4, you can start the container with an extra argument like this: `craft start 7.2`.
 
 ### Load a database
 
