@@ -19,6 +19,7 @@ RUN apt-get -y --no-install-recommends install \
     curl \
     git \
     gnupg-agent \
+    imagemagick \
     iwatch \
     libtool \
     locales \
