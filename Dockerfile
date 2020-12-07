@@ -6,6 +6,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 ENV NODE_VERSION "node_12.x"
 ENV DISTRO "focal"
+ENV COMPOSER_VERSION "2.0.8"
 
 RUN apt-get update &&\
     apt-get install -y --no-install-recommends software-properties-common &&\
@@ -46,11 +47,8 @@ RUN apt-get -y --no-install-recommends install \
 # Setup
 WORKDIR /local
 
-
-# Install composer and prestissimo plugin
-RUN cd /tmp &&\
-    curl --silent --show-error https://getcomposer.org/installer | php &&\
-    mv composer.phar /usr/local/bin/composer
+# Get Composer
+RUN wget https://getcomposer.org/download/$COMPOSER_VERSION/composer.phar -O /usr/local/bin/composer
 
 # Install node including global packages
 RUN curl -sSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - &&\
