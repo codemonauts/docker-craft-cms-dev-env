@@ -50,7 +50,8 @@ RUN apt-get -y --no-install-recommends install \
 WORKDIR /local
 
 # Get Composer
-RUN wget https://getcomposer.org/download/$COMPOSER_VERSION/composer.phar -O /usr/local/bin/composer
+RUN wget https://getcomposer.org/download/$COMPOSER_VERSION/composer.phar -O /usr/local/bin/composer &&\
+    chmod +x /usr/local/bin/composer
 
 # Install node including global packages
 RUN curl -sSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - &&\
