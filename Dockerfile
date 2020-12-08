@@ -8,6 +8,8 @@ ENV NODE_VERSION "node_12.x"
 ENV DISTRO "focal"
 ENV COMPOSER_VERSION "2.0.8"
 
+ENV PHPVERSION="7.4"
+
 RUN apt-get update &&\
     apt-get install -y --no-install-recommends software-properties-common &&\
     add-apt-repository ppa:ondrej/php &&\
