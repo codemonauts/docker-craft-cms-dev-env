@@ -58,7 +58,7 @@ RUN curl -sSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add
     echo "deb https://deb.nodesource.com/$NODE_VERSION $DISTRO main" | tee /etc/apt/sources.list.d/nodesource.list &&\
     apt-get update &&\
     apt-get install -y nodejs &&\
-    npm install --global npm gulp-cli pug-cli yarn
+    npm install --global gulp-cli pug-cli yarn
 
 COPY includes /
 
