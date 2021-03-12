@@ -61,7 +61,7 @@ function start_mysql {
     docker pull "$MYSQL_CONTAINER" > /dev/null
   fi
 
-  docker run --rm -d --name mysql -v "${HOME}/databases:/var/lib/mysql:delegated" -v "${HOME}/database_config:/etc/mysql/conf.d:delegated" -e MYSQL_ROOT_PASSWORD=root "$MYSQL_CONTAINER" > /dev/null
+  docker run --rm -d --name mysql -p 3306:3306 -v "${HOME}/databases:/var/lib/mysql:delegated" -v "${HOME}/database_config:/etc/mysql/conf.d:delegated" -e MYSQL_ROOT_PASSWORD=root "$MYSQL_CONTAINER" > /dev/null
   if [ $? == 0 ]; then
     log_success "Started MySQL container"
   else
@@ -146,7 +146,7 @@ function start {
     fi
 
     if [ `uname -s` == "Linux" ]; then
-        echo "You appear to be running Linux. Trying to fix permissions for mounted volumes inside container"
+        echo "You appear to be running Linux. Fixing permissions for Docker volumes."
         docker run --rm -d --name craft -p 8080:80 -v "${PWD}:/local:delegated" -e "CUSTOM_UID=`id -u`" -e "CUSTOM_GID=`id -g`" -e "PHPVERSION=$PHPVERSION" --link mysql:mysql --link redis:cache "$CRAFT_CONTAINER" > /dev/null
     else
         docker run --rm -d --name craft -p 8080:80 -v "${PWD}:/local:delegated" -e "PHPVERSION=$PHPVERSION" --link mysql:mysql --link redis:cache "$CRAFT_CONTAINER" > /dev/null

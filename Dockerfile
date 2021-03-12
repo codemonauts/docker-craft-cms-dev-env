@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 ENV NODE_VERSION "node_12.x"
 ENV DISTRO "focal"
-ENV COMPOSER_VERSION "2.0.8"
+ENV COMPOSER_VERSION "2.0.11"
 
 ENV PHPVERSION="7.4"
 
@@ -28,12 +28,10 @@ RUN apt-get -y --no-install-recommends install \
     locales \
     mysql-client \
     nginx \
-    php-imagick \
-    php-soap \
-    php-xml \
-    php7.0-bcmath php7.0-cli php7.0-curl php7.0-fpm php7.0-gd php7.0-imagick php7.0-intl php7.0-mbstring php7.0-mcrypt php7.0-mysql php7.0-xml php7.0-zip php7.0-imagick php7.0-soap \
-    php7.2-bcmath php7.2-cli php7.2-curl php7.2-fpm php7.2-gd php7.2-intl php7.2-mbstring php7.2-mysql php7.2-xml php7.2-zip php7.2-soap \
-    php7.4-bcmath php7.4-cli php7.4-curl php7.4-fpm php7.4-gd php7.4-intl php7.4-mbstring php7.4-mysql php7.4-xml php7.4-zip php7.4-soap \
+    php7.0-bcmath php7.0-cli php7.0-curl php7.0-fpm php7.0-gd php7.0-imagick php7.0-intl php7.0-mbstring php7.0-mysql php7.0-xml php7.0-zip php7.0-soap php7.0-mcrypt  \
+    php7.2-bcmath php7.2-cli php7.2-curl php7.2-fpm php7.2-gd php7.2-imagick php7.2-intl php7.2-mbstring php7.2-mysql php7.2-xml php7.2-zip php7.2-soap \
+    php7.4-bcmath php7.4-cli php7.4-curl php7.4-fpm php7.4-gd php7.4-imagick php7.4-intl php7.4-mbstring php7.4-mysql php7.4-xml php7.4-zip php7.4-soap \
+    php8.0-bcmath php8.0-cli php8.0-curl php8.0-fpm php8.0-gd php8.0-imagick php8.0-intl php8.0-mbstring php8.0-mysql php8.0-xml php8.0-zip php8.0-soap \
     redis-tools \
     rsync \
     ruby \

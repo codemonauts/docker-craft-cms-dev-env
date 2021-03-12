@@ -6,7 +6,7 @@ This container helps you to setup a local environment for CRAFT CMS. This enviro
 
 - Ubuntu 20.04
 - nginx webserver
-- PHP-FPM 7.0, 7.2 and 7.4
+- PHP-FPM 7.0, 7.2, 7.4 and 8.0
 - MySQL Server 5.7
 - Redis Server 5.0
 - Node 12 + npm
@@ -17,6 +17,7 @@ To enable you an easy workflow, this repository contains a helpful little shell 
 
 ## Installation
 
+* Make sure you have Docker installed
 * Copy the `bin/craft` script somewhere into your $PATH. E.g. `~/bin/craft`
 * Done :)
 
@@ -48,12 +49,12 @@ Database: See next step
 
 - Pull the latest mysql container and start it with it's database dir (/var/lib/mysql/) mounted to `~/databases`.
 - Pull the latest redis container and start it with it's data dir (/data) mounted to `~/redis`.
-- Pull the latest craft-dev-env container and start the nginx+php7.4 inside of it. Nginx will listen on port 8080 of your machine. We assume that you are currently inside the project folder and mount it into the container as the document root under `/local`.
+- Pull the latest craft-dev-env container and start nginx and php-fpm inside of it. Nginx will listen on port 8080 of your machine. We assume that you are currently inside the project folder and mount it into the container as the document root under `/local`.
 
 To speed things up (the craft-dev-env container is quite big) the tool checks how old your local image is, and only
 pulls a new image if it's older than two days.
 
-If you wan't to use 7.0 or 7.2 instead of 7.4, you can start the container with an extra argument like this: `craft start 7.2`.
+If you wan't to use a different PHP version than 7.4, you can start the container with an extra argument like this: `craft start 8.0`.
 
 ### Load a database
 
@@ -74,6 +75,7 @@ The dump can be in one of the following formats:
   - .sql
   - .sql.gz
   - .sql.zst
+  - .zip
 
 ### Build frontend
 
