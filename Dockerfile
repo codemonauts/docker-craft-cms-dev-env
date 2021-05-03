@@ -1,3 +1,4 @@
+# codemonauts/craft-cms-dev-env
 FROM ubuntu:focal
 
 LABEL MAINTAINER felix@codemonauts.com
@@ -43,6 +44,12 @@ RUN apt-get -y --no-install-recommends install \
     zstd &&\
     locale-gen en_US.UTF-8 &&\
     gem update --system
+
+# Install sqlstrip
+RUN  cd /tmp &&\
+    wget https://github.com/codemonauts/sqlstrip/releases/download/v1.0/sqlstrip_1.0_Linux_x86_64.tar.gz -O sqlstrip.tar.gz &&\
+    tar xvf sqlstrip.tar.gz &&\
+    mv sqlstrip /usr/local/bin
 
 # Setup
 WORKDIR /local
