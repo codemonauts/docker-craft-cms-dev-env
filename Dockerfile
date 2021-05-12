@@ -33,10 +33,13 @@ RUN apt-get -y --no-install-recommends install \
     php7.2-bcmath php7.2-cli php7.2-curl php7.2-fpm php7.2-gd php7.2-imagick php7.2-intl php7.2-mbstring php7.2-mysql php7.2-xml php7.2-zip php7.2-soap \
     php7.4-bcmath php7.4-cli php7.4-curl php7.4-fpm php7.4-gd php7.4-imagick php7.4-intl php7.4-mbstring php7.4-mysql php7.4-xml php7.4-zip php7.4-soap \
     php8.0-bcmath php8.0-cli php8.0-curl php8.0-fpm php8.0-gd php8.0-imagick php8.0-intl php8.0-mbstring php8.0-mysql php8.0-xml php8.0-zip php8.0-soap \
+    python3 \
+    python3-pip \
     redis-tools \
     rsync \
     ruby \
     ruby-dev \
+    sudo \
     unzip \
     vim \
     wget \
@@ -66,5 +69,9 @@ RUN curl -sSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add
     npm install --global gulp-cli pug-cli yarn
 
 COPY includes /
+
+# Set a shell and password-less sudo for www-data so we can use this account
+RUN usermod --shell /bin/bash www-data && \
+    echo "www-data         ALL = (ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 CMD ["run.sh"]

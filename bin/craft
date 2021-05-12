@@ -192,11 +192,11 @@ case "$1" in
 
   'yiic')
     echo "${@:2}"
-    docker exec craft /bin/bash -c "/local/craft/app/etc/console/yiic ${@:2}"
+    docker exec craft /bin/bash -c "sudo -u www-data /local/craft/app/etc/console/yiic ${@:2}"
     ;; 
 
   'shell')
-    docker exec -it craft /bin/bash
+    docker exec -it craft /bin/bash -c "su www-data"
     ;; 
 
   'create')
@@ -212,13 +212,13 @@ case "$1" in
     ;;
 
   'compile')
-    docker exec -it craft /bin/bash -c "compile.sh"
-    docker exec -it craft /bin/bash -c "watch.sh"
+    docker exec -it craft /bin/bash -c "sudo -u www-data compile.sh"
+    docker exec -it craft /bin/bash -c "sudo -u www-data watch.sh"
     ;;
 
   'gulp')
     COMMAND=$2
-    docker exec -it craft /bin/bash -c "gulp.sh $COMMAND"
+    docker exec -it craft /bin/bash -c "sudo -u www-data gulp.sh $COMMAND"
     ;;
 
   'tunnel')
