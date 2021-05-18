@@ -72,6 +72,8 @@ COPY includes /
 
 # Set a shell and password-less sudo for www-data so we can use this account
 RUN usermod --shell /bin/bash www-data && \
-    echo "www-data         ALL = (ALL) NOPASSWD: ALL" >> /etc/sudoers
+    echo "www-data         ALL = (ALL) NOPASSWD: ALL" >> /etc/sudoers && \
+    chown -R www-data:www-data /var/www
+
 
 CMD ["run.sh"]
