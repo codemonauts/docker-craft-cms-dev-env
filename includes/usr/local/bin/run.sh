@@ -1,5 +1,4 @@
 #! /bin/bash
-set -eu
 
 echo "Starting craft container"
 
