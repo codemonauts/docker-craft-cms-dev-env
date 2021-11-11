@@ -9,7 +9,7 @@ DEFAULT_PHP="7.4"
 # Check if an Docker Image is availabe and not older than a few days
 function should_pull {
   NAME=$1
-  if ! image_exists $NAMNE; then
+  if ! image_exists $NAME; then
     # image not available
     return 0
   elif [ -z "$(docker images --format "{{.CreatedSince}}" "$1" | grep -E '(hour|minutes|seconds)')" ]; then
