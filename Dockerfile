@@ -12,6 +12,7 @@ ENV COMPOSER_VERSION "2.0.11"
 ENV PHPVERSION="7.4"
 
 RUN apt-get update &&\
+    apt-get upgrade -y &&\
     apt-get install -y --no-install-recommends software-properties-common &&\
     add-apt-repository ppa:ondrej/php &&\
     apt-get update
