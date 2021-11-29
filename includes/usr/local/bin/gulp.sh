@@ -39,7 +39,7 @@ if [ "$OLD" == "$CURRENT" ]; then
 	echo "package-lock.json didn't change since last time. Won't run npm install!"
 else
 	echo "package-lock.json did change since last time. Will run npm install!"
-	npm install
+	npm ci
 	# Save the current version of the lockfile
 	echo -n $CURRENT > .lockfile-hash
 fi
