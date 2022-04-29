@@ -6,7 +6,7 @@ This container helps you to setup a local environment for CRAFT CMS. This enviro
 
 - Ubuntu 20.04
 - nginx webserver
-- PHP-FPM 7.0, 7.2, 7.4 and 8.0
+- PHP-FPM 7.0, 7.2, 7.4, 8.0 and 8.1
 - MySQL Server 5.7
 - Redis Server 5.0
 - Node 12 + npm
