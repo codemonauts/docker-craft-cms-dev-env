@@ -12,12 +12,10 @@ ENV COMPOSER_VERSION "2.2.3"
 ENV PHPVERSION="7.4"
 
 RUN apt-get update &&\
-    apt-get upgrade -y &&\
     apt-get install -y --no-install-recommends software-properties-common &&\
     add-apt-repository ppa:ondrej/php &&\
-    apt-get update
-
-RUN apt-get -y --no-install-recommends install \
+    apt-get update &&\
+    apt-get -y --no-install-recommends install \
     autoconf \
     autogen \
     build-essential \
@@ -47,6 +45,7 @@ RUN apt-get -y --no-install-recommends install \
     wget \
     zip \
     zstd &&\
+    rm -rf /var/lib/apt/lists &&\
     locale-gen en_US.UTF-8 &&\
     gem update --system
 
@@ -68,6 +67,7 @@ RUN curl -sSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add
     echo "deb https://deb.nodesource.com/$NODE_VERSION $DISTRO main" | tee /etc/apt/sources.list.d/nodesource.list &&\
     apt-get update &&\
     apt-get install -y nodejs &&\
+    rm -rf /var/lib/apt/lists &&\
     npm install --global gulp-cli pug-cli yarn
 
 COPY includes /
