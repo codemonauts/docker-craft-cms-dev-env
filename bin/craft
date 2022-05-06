@@ -223,8 +223,10 @@ case "$1" in
   'selfupdate')
     log_info "Getting latest version from GitHub"
     SCRIPT=$0
+    DST="/tmp/craft"
     GITHUB_URL="https://raw.githubusercontent.com/codemonauts/docker-craft-cms-dev-env/master/bin/craft"
-    curl -s "$GITHUB_URL" > "$SCRIPT"
+    curl -s "$GITHUB_URL" -o "$DST"
+    mv "$DST" "$SCRIPT"
     log_success "Done"
     ;;
 
