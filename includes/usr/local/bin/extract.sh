@@ -26,4 +26,3 @@ elif [[ "$FILENAME" == *.zip ]]; then
 else
 	echo "Unknown file format"
 fi
-
