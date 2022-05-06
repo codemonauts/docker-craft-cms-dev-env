@@ -10,7 +10,7 @@ This container helps you to setup a local environment for CRAFT CMS. This enviro
 - MySQL Server 5.7
 - Redis Server 5.0
 - Node 12 + npm
-- Frontend Tooling (gulp, bower, pug-cli)
+- Frontend Tooling (gulp, pug-cli)
 - bash + some handy CLI tools (vim,curl,git, ...)
 
 To enable you an easy workflow, this repository contains a helpful little shell script which you can use to manage this container.
@@ -117,10 +117,3 @@ Everything ending with `.sh` gets executed with `bash` when you run `craft gulp`
 
 If you wan't to access the filesystem inside the container to e.g. take a look at a logfile or modify some files you
 can run `craft shell` to spawn a bash.
-
-### External Tunnel
-
-Sometimes you need to access the CRAFT installation from the outside to e.g. receive a webhook from a third-party. To
-make this easy we included [ngrok](https://ngrok.com) inside the container. After running `craft tunnel` you will see
-the ngrok interface which will present you publicly reachable `https:<randomhash>.ngrok.io` domain which will point
-to the nginx inside the container.

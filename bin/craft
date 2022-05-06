@@ -190,11 +190,6 @@ case "$1" in
     $0 start
     ;;
 
-  'yiic')
-    echo "${@:2}"
-    docker exec craft /bin/bash -c "sudo -u www-data /local/craft/app/etc/console/yiic ${@:2}"
-    ;; 
-
   'shell')
     docker exec -it craft /bin/bash -c "su www-data"
     ;; 
@@ -235,7 +230,7 @@ case "$1" in
 
   *)
     echo "Unknown command. Available commands are:"
-    echo "start, offlinestart, stop, stopall, yiic, shell, create, drop, import, compile, gulp, tunnel, selfupdate"
+    echo "start, offlinestart, stop, stopall, shell, create, drop, import, gulp, selfupdate"
   ;;
 
 esac
