@@ -231,6 +231,7 @@ case "$1" in
     GITHUB_URL="https://raw.githubusercontent.com/codemonauts/docker-craft-cms-dev-env/master/bin/craft"
     curl -s "$GITHUB_URL" -o "$DST"
     mv "$DST" "$SCRIPT"
+    chmod +x "$SCRIPT"
     log_success "Done"
     ;;
 
