@@ -202,13 +202,17 @@ case "$1" in
     docker exec -it craft /bin/bash -c "mysqladmin drop ${2}"
     ;;
 
-  'import')
+  'replace')
+    docker exec -it craft /bin/bash -c "mysqladmin drop -fs ${2} 2&>1 /dev/null"
+    echo "Dropped"
+    docker exec craft /bin/bash -c "mysqladmin create ${2} >/dev/null"
+    echo "Created"
     docker exec -it craft /bin/bash -c "extract.sh ${2} ${3}"
+    echo "Imported"
     ;;
 
-  'compile')
-    docker exec -it craft /bin/bash -c "sudo -u www-data compile.sh"
-    docker exec -it craft /bin/bash -c "sudo -u www-data watch.sh"
+  'import')
+    docker exec -it craft /bin/bash -c "extract.sh ${2} ${3}"
     ;;
 
   'gulp')
@@ -232,7 +236,7 @@ case "$1" in
 
   *)
     echo "Unknown command. Available commands are:"
-    echo "start, offlinestart, stop, stopall, shell, create, drop, import, gulp, selfupdate"
+    echo "start, offlinestart, stop, stopall, shell, create, drop, replace, import, gulp, selfupdate"
   ;;
 
 esac

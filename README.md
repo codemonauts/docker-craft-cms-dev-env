@@ -77,6 +77,8 @@ The dump can be in one of the following formats:
   - .sql.zst
   - .zip
 
+If you want to clear the DB beforehadn completly, you can use `replace` instead of `import`. This is a shorthand for `drop`, `create`, `import` and will guarante a clean import of your DB.
+
 ### Build frontend
 
 To start gulp inside the container you can run
