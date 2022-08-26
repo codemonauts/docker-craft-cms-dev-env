@@ -226,7 +226,7 @@ case "$1" in
 
   'selfupdate')
     log_info "Getting latest version from GitHub"
-    SCRIPT=$0
+    SCRIPT=`readlink -f $0`
     DST="/tmp/craft"
     GITHUB_URL="https://raw.githubusercontent.com/codemonauts/docker-craft-cms-dev-env/master/bin/craft"
     curl -s "$GITHUB_URL" -o "$DST"
