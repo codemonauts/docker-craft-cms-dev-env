@@ -203,9 +203,9 @@ case "$1" in
     ;;
 
   'replace')
-    docker exec -it craft /bin/bash -c "mysqladmin drop -fs ${2} 2&>1 /dev/null"
+    docker exec -it craft /bin/bash -c "mysqladmin drop -fs ${2} > /dev/null 2>&1"
     echo "Dropped"
-    docker exec craft /bin/bash -c "mysqladmin create ${2} >/dev/null"
+    docker exec craft /bin/bash -c "mysqladmin create ${2} > /dev/null"
     echo "Created"
     docker exec -it craft /bin/bash -c "extract.sh ${2} ${3}"
     echo "Imported"
