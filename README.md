@@ -1,5 +1,4 @@
 # docker-craft-dev-env
-![docker build badge](https://img.shields.io/docker/build/codemonauts/craft-cms-dev-env)
 ![docker pulls badge](https://img.shields.io/docker/pulls/codemonauts/craft-cms-dev-env)
 
 This container helps you to setup a local environment for CRAFT CMS. This environment consists of:
@@ -119,3 +118,19 @@ Everything ending with `.sh` gets executed with `bash` when you run `craft gulp`
 
 If you wan't to access the filesystem inside the container to e.g. take a look at a logfile or modify some files you
 can run `craft shell` to spawn a bash.
+
+### Adding ElasticSearch container
+
+To add an ElasticSearch container to the environment, start the container with the following command:
+
+```bash
+docker run --name elasticsearch --rm --net bridge -e "xpack.security.enabled=false" -e "discovery.type=single-node" -p 9200:9200 -it docker.elastic.co/elasticsearch/elasticsearch:8.5.3
+```
+
+Then inspect the container with 
+
+```bash
+docker inspect elasticsearch
+```
+
+and find the IP address used. Then your endpoint is `http://x.x.x.x:9200`.
