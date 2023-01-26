@@ -1,9 +1,15 @@
 #! /usr/bin/env bash
 
 MYSQL_CONTAINER="mysql:5.7"
-REDIS_CONTAINER="redis:5.0"
-CRAFT_CONTAINER="codemonauts/craft-cms-dev-env"
-DEFAULT_PHP="7.4"
+REDIS_CONTAINER="redis:6-alpine"
+CRAFT_CONTAINER="codemonauts/craft-cms-dev-env:latest"
+DEFAULT_PHP="8.1"
+
+BASE_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/craftcli"
+OLD_BASE_DIR="${HOME}"
+DATABASE_DIR="${BASE_DIR}/databases"
+REDIS_DIR="${BASE_DIR}/redis"
+DATABASE_CONF_DIR="${BASE_DIR}/database_config"
 
 
 # Check if an Docker Image is availabe and not older than a few days
@@ -42,9 +48,10 @@ function is_running {
 # Create the needed directorys on the host which will be used as
 # container volumes for persistent storage
 function create_volumes {
-    mkdir -p ${HOME}/databases
-    mkdir -p ${HOME}/redis
-    mkdir -p ${HOME}/database_config
+    echo "$BASE_DIR"
+    mkdir -p "${DATABASE_DIR}"
+    mkdir -p "${REDIS_DIR}"
+    mkdir -p "${DATABASE_CONF_DIR}"
 }
 
 # Start the MySQL container if needed
@@ -61,7 +68,7 @@ function start_mysql {
     docker pull "$MYSQL_CONTAINER" > /dev/null
   fi
 
-  docker run --rm -d --name mysql -p 3306:3306 -v "${HOME}/databases:/var/lib/mysql:delegated" -v "${HOME}/database_config:/etc/mysql/conf.d:delegated" -e MYSQL_ROOT_PASSWORD=root "$MYSQL_CONTAINER" > /dev/null
+  docker run --rm -d --name mysql -p 3306:3306 -v "${DATABASE_DIR}:/var/lib/mysql:delegated" -v "${DATABASE_CONF_DIR}:/etc/mysql/conf.d:delegated" -e MYSQL_ROOT_PASSWORD=root "$MYSQL_CONTAINER" > /dev/null
   if [ $? == 0 ]; then
     log_success "Started MySQL container"
   else
@@ -84,7 +91,7 @@ function start_redis {
     docker pull "$REDIS_CONTAINER" > /dev/null
   fi
 
-  docker run --rm -d --name redis -v "${HOME}/redis:/data:delegated" "$REDIS_CONTAINER" > /dev/null
+  docker run --rm -d --name redis -v "${REDIS_DIR}:/data:delegated" "$REDIS_CONTAINER" > /dev/null
   if [ $? == 0 ]; then
     log_success "Started Redis container"
   else
@@ -102,6 +109,22 @@ function stop_container {
   else
     log_info "$NAME not running"
   fi
+}
+
+function migrate_folders {
+    DIR="${HOME}/database_config"
+    if [ -d "$DIR" ]; then
+        log_error "OLD FOLDER STRUCTURE DETECTED"
+        echo "You are still using the old folder structure for the containers"
+        echo "Please move the folders 'databases', 'redis' and 'database_config' from"
+        echo "'${OLD_BASE_DIR}' to '${BASE_DIR}' to avoid getting this every every time"
+        echo "I will continue to use the old folders until you migrated them yourself!"
+        echo ""
+        echo "Press any key to continue..."
+        read -n 1
+
+        BASE_DIR="${OLD_BASE_DIR}"
+    fi
 }
 
 # Print errormessages in red
@@ -129,6 +152,7 @@ function log_success {
 }
 
 function start {
+    migrate_folders
     create_volumes
     start_mysql
     start_redis
@@ -175,6 +199,11 @@ case "$1" in
     start $2
     ;;
 
+  # DEPRECATED: DO NOT USE!
+  'legacystart')
+    CRAFT_CONTAINER="codemonauts/craft-cms-dev-env:legacy" start $2
+    ;;
+
   'stop')
     stop_container "craft"
     ;;
@@ -215,9 +244,9 @@ case "$1" in
     docker exec -it craft /bin/bash -c "extract.sh ${2} ${3}"
     ;;
 
-  'gulp')
+  'npm')
     COMMAND=$2
-    docker exec -it craft /bin/bash -c "sudo -u www-data gulp.sh $COMMAND"
+    docker exec -it craft /bin/bash -c "sudo -u www-data npm.sh $COMMAND"
     ;;
 
   'tunnel')
@@ -237,7 +266,7 @@ case "$1" in
 
   *)
     echo "Unknown command. Available commands are:"
-    echo "start, offlinestart, stop, stopall, shell, create, drop, replace, import, gulp, selfupdate"
+    echo "start, offlinestart, stop, stopall, shell, create, drop, replace, import, npm, selfupdate"
   ;;
 
 esac

@@ -3,13 +3,13 @@
 
 This container helps you to setup a local environment for CRAFT CMS. This environment consists of:
 
-- Ubuntu 20.04
+- Ubuntu 22.04
 - nginx webserver
-- PHP-FPM 7.0, 7.2, 7.4, 8.0 and 8.1
+- PHP-FPM 8.0 and 8.1
 - MySQL Server 5.7
-- Redis Server 5.0
-- Node 12 + npm
-- Frontend Tooling (gulp, pug-cli)
+- Redis Server 6.0
+- Node 18
+- Frontend Tooling
 - bash + some handy CLI tools (vim,curl,git, ...)
 
 To enable you an easy workflow, this repository contains a helpful little shell script which you can use to manage this container.
@@ -53,7 +53,7 @@ Database: See next step
 To speed things up (the craft-dev-env container is quite big) the tool checks how old your local image is, and only
 pulls a new image if it's older than two days.
 
-If you wan't to use a different PHP version than 7.4, you can start the container with an extra argument like this: `craft start 8.0`.
+If you want to use a different PHP version than 8.1, you can start the container with an extra argument like this: `craft start 8.0`.
 
 ### Load a database
 
@@ -112,7 +112,7 @@ and keep the MySQL and the Redis container running because they are shared betwe
 
 If you have custom scripts which you want to execute for this specific project (e.g. installing packages or copying
 files) you can create a `scripts` folder in your project root (where you start `craft`) and put your scripts into it.
-Everything ending with `.sh` gets executed with `bash` when you run `craft gulp`.
+Everything ending with `.sh` gets executed with `bash` when you run `craft start`.
 
 ### Shell access
 
