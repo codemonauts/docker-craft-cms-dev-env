@@ -11,22 +11,15 @@ DATABASE_DIR="${BASE_DIR}/databases"
 REDIS_DIR="${BASE_DIR}/redis"
 DATABASE_CONF_DIR="${BASE_DIR}/database_config"
 
-function check_nofile_limit {
+  function check_nofile_limit {
   if [ `uname -s` == "Linux" ]; then
     echo "You appear to be running Linux. Checking ulimit for docker..."
     NOFILE_LIMIT=$(systemctl cat docker | grep NOFILE | tail -1 | cut -c 13-)
     # if nofile limit is equal Infinity, set it to 1048576
     if [ "$NOFILE_LIMIT" == "infinity" ]; then  
       echo "Nofile Limit is set to Infinity, this can cause problems with the MySQL container"
-      echo "Adding the following line to your systemd's override.conf..."
-      sudo mkdir -p /etc/systemd/system/docker.service.d
-      sudo echo "[Service]" | sudo tee -a /etc/systemd/system/docker.service.d/override.conf
-      sudo echo "LimitNOFILE=1048576" | sudo tee -a /etc/systemd/system/docker.service.d/override.conf
-      sudo mkdir -p /etc/systemd/system/containerd.service.d
-      sudo echo "[Service]" | sudo tee -a /etc/systemd/system/containerd.service.d/override.conf
-      sudo echo "LimitNOFILE=1048576" | sudo tee -a /etc/systemd/system/containerd.service.d/override.conf
-      echo "Reloading systemd..."
-      sudo systemctl daemon-reload
+      echo "Please refer to the documentation on how to fix this:"
+      echo "https://github.com/codemonauts/docker-craft-cms-dev-env/blob/master/docs/nofile-limit-fix.md"
     fi
   fi
 }
